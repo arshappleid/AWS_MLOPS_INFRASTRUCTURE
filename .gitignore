@@ -1,0 +1,82 @@
+# Terraform ignore
+**/.terraform/*
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+terraform.tfstate.d/
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# SageMaker/TensorFlow specific
+*.ipynb_checkpoints
+*/model/*
+*/output/*
+*.ckpt
+*.meta
+*.index
+*.pb
+*.data-*
+
+# Docker specific
+Dockerfile
+*.dockerignore
+*/.dockerenv
+*/.dockerinit
+docker-compose*.yml
+
+# General and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.seed
+*.pid.lock
+*.DS_Store
+*.local
+
+# IDE specific
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python
+*.py[cod]
+__pycache__/
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
