@@ -25,6 +25,16 @@ resource "aws_s3_bucket" "s3_data_source" {
     }
   }
 
+  // If Environement is PROD , do not destroy
+  dynamic "prevent_destroy_lifecycle" {
+	for_each = var.environment == "PROD" ? [1]: []
+	content{
+		prevent_destroy = false
+	}
+  }
+
+
+
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
     target_prefix = "log/"

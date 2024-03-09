@@ -4,4 +4,5 @@ chrome-cli open https://cloud.google.com/architecture/mlops-continuous-delivery-
 chrome-cli open https://aws.amazon.com/blogs/machine-learning/mlops-foundation-roadmap-for-enterprises-with-amazon-sagemaker/
 chrome-cli open https://aws.amazon.com/blogs/machine-learning/mlops-foundation-roadmap-for-enterprises-with-amazon-sagemaker/
 chrome-cli open https://www.youtube.com/watch?v=2kzJPhgDkDE
+chrome-cli open https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 open README.md
