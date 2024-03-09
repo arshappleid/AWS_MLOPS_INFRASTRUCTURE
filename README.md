@@ -4,11 +4,11 @@ A cloud solution for a Machine Learning Platform , that utilizes AWS to deploy M
 
 ## Automation Challenge
 
-![](/Users/pdeol/code/github_projects/mlops_infrastructure/images/mlops_processes.svg)
+![](./images/mlops_processes.svg)
 
 ## Infrastructure Diagram
 
-![](/Users/pdeol/code/github_projects/mlops_infrastructure/images/architecture_diagram.png)
+![](./images/architecture_diagram.png)
 
 ## Articles Referenced:
 
