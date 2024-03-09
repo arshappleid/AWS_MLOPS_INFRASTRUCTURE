@@ -12,11 +12,9 @@ A cloud solution for a Machine Learning Platform , that utilizes AWS to deploy M
 
 
 
+## Infrastructure Diagram
 
-
-
-
-
+![image-20240308232801277](/Users/pdeol/Library/Application Support/typora-user-images/image-20240308232801277.png)
 
 
 
