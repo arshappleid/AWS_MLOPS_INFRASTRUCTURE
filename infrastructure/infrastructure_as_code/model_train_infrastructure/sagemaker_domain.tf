@@ -1,5 +1,6 @@
 resource "aws_security_group" "sagemaker_domain_sg" {
   vpc_id = aws_vpc.sagemaker_vpc.id
+  description = "Allow "
 
   ingress {
     from_port   = 80
