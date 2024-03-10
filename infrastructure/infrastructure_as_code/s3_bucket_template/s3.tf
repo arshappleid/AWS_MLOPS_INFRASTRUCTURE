@@ -42,7 +42,6 @@ resource "aws_s3_bucket_public_access_block" "public_access_policy_1" {
 }
 resource "aws_s3_bucket" "log_bucket" {
   bucket = "log-bucket-for-${var.s3_bucket_name}"
-
 }
 
 resource "aws_s3_bucket_public_access_block" "public_access_policy_2" {

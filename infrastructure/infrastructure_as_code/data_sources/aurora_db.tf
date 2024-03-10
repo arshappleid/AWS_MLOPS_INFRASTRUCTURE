@@ -8,7 +8,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
   backup_retention_period = 5 
   vpc_security_group_ids  = [aws_security_group.aurora_sg.id] 
   db_subnet_group_name    = aws_db_subnet_group.aurora_subnet_group.name 
-
+  iam_database_authentication_enabled = true // Access to the database through IAM Roles
   # Optional for scaling, replication
   availability_zones      =  var.database_az_list
 

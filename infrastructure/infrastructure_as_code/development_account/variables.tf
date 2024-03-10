@@ -1,3 +1,8 @@
+variable "environment" {
+  description = "Environment Used"
+  default = "DEV"
+}
+
 variable "code_commit_repo_name"{
 	type = string
 	description = "Code Commit Repo Name to Store the project"
