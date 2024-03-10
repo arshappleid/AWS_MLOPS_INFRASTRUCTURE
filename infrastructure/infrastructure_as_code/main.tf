@@ -6,17 +6,24 @@ module "main_datasource" {
   s3_bucket_data_transition_zone = "STANDARD_IA"
   s3_bucket_data_expiration_days = 90
 
-  vpc_cidr = "10.1.0.0/16"
-  database_az_list = ["us-east-1a" , "us-east-1b"]
+  vpc_cidr                 = "10.1.0.0/16"
+  database_az_list         = ["us-east-1a", "us-east-1b"]
   database_name            = "My New Database"
   database_master_username = "master"
   database_master_password = "password"
 }
 module "prod_model_train" {
   source                       = "./model_train_infrastructure"
-  vpc_cidr_block  = "10.2.0.0/16"
+  vpc_cidr_block               = "10.2.0.0/16"
   project_name                 = "Project 1"
   code_commit_repo_name        = "Project 1 Repo"
   code_commit_repo_description = "Project 1 , that trains a prediction model on current demand data"
   s3_bucket_list_arn           = [module.main_datasource.s3_bucket_arn]
+}
+
+module "operations_account" {
+  source                                       = "./operations_vpc"
+  sagemaker_pipeline_name                      = "My New pipeline"
+  code_commit_repo_name                        = module.prod_model_train.code_commit_repo_name
+  code_commit_branch_name_for_pipeline_trigger = "main"
 }
