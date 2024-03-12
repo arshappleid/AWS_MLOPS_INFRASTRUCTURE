@@ -27,3 +27,9 @@ module "operations_account" {
   code_commit_repo_name                        = module.prod_model_train.code_commit_repo_name
   code_commit_branch_name_for_pipeline_trigger = "main"
 }
+
+module "artifact_account"{
+  source = "./artifact_account"
+  project_name = "regression_model"
+  
+}
