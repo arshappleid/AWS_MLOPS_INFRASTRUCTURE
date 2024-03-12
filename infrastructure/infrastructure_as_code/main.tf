@@ -22,14 +22,13 @@ module "prod_model_train" {
 }
 
 module "operations_account" {
-  source                                       = "./operations_vpc"
+  source                                       = "./operations_environment"
   sagemaker_pipeline_name                      = "My New pipeline"
   code_commit_repo_name                        = module.prod_model_train.code_commit_repo_name
   code_commit_branch_name_for_pipeline_trigger = "main"
 }
 
-module "artifact_account"{
-  source = "./artifact_account"
+module "model_registry"{
+  source = "./model_registry"
   project_name = "regression_model"
-  
 }
