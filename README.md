@@ -32,8 +32,13 @@ The architecture should be capable of deploying a regression ml model , and coll
 
 ![](./images/architecture_diagram.png)
 
+## Further Requirements for deployment
+
+1. Create a Code Commit Repository , that has the appropriate setup to run the pipeline automatically. Checkout Link : 
+   1. Needs a ```buildspec_build.yaml``` and ```buildspec_test.yaml``` in the root of the project directory !!!!!!. This is similar to specify build / test commands for your environment.
+2. Need to configure artifact repository in code pipeline.
+
 ## Articles Referenced:
 
 1. [Google mlops Continuous Delivery and Automation Pipelines](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
-
-   
+2. 

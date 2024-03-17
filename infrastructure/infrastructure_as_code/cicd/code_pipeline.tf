@@ -1,3 +1,4 @@
+// Check all possible steos at : https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements
 resource "aws_codepipeline" "codepipeline" {
   name     = "tf-test-pipeline"
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -5,9 +6,10 @@ resource "aws_codepipeline" "codepipeline" {
   artifact_store {
     location = aws_s3_bucket.codepipeline_bucket.bucket
     type     = "S3"
-	// Provision KMS Key to 
+    // Provision KMS Key to 
   }
 
+  // Where are we getting the code from ?
   stage {
     name = "Source"
 
@@ -15,18 +17,37 @@ resource "aws_codepipeline" "codepipeline" {
       name             = "Source"
       category         = "Source"
       owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
+      provider         = "CodeCommit"
       version          = "1"
       output_artifacts = ["source_output"]
 
+
+      // Check Config at : https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-CodeCommit.html#action-reference-CodeCommit-config
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.example.arn
-        FullRepositoryId = "my-organization/example"
-        BranchName       = "main"
+        // Might Need Repository Name Instead
+        ProjectName   = aws_codebuild_project.build_stage.name
+        ConnectionArn = var.CODE_SRC_ARN
+        BranchName    = var.CODE_PIPELINE_TRIGGER_REPO_BRANCH
       }
     }
   }
 
+  stage {
+    name = "Test"
+    action {
+      name     = "Test"
+      category = "Test"
+      owner    = "AWS"
+      provider = "CodeBuild"
+      version  = "1"
+      configuration = {
+        ProjectName          = aws_codebuild_project.test_stage.name
+        EnvironmentVariables = var.environment_variables
+      }
+    }
+  }
+
+  // Where Are We building the code at ?
   stage {
     name = "Build"
 
@@ -39,12 +60,15 @@ resource "aws_codepipeline" "codepipeline" {
       output_artifacts = ["build_output"]
       version          = "1"
 
+      // Check Config at : https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-CodeBuild.html#action-reference-CodeBuild-config
       configuration = {
-        ProjectName = "test"
+        ProjectName          = "test"
+        EnvironmentVariables = var.environment_variables
       }
     }
   }
 
+  // Where are we deploying the code onto ?
   stage {
     name = "Deploy"
 
@@ -52,7 +76,7 @@ resource "aws_codepipeline" "codepipeline" {
       name            = "Deploy"
       category        = "Deploy"
       owner           = "AWS"
-      provider        = "CloudFormation"
+      provider        = "CodeDeploy"
       input_artifacts = ["build_output"]
       version         = "1"
 
@@ -65,4 +89,5 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
+
 }

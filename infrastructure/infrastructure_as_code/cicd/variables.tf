@@ -30,8 +30,19 @@ variable "environment_variables" {
       name  = "SOME_KEY2"
       value = "SOME_VALUE2"
       type  = "PARAMETER_STORE"
+      }, {
+      name  = "SOME_KEY1"
+      value = "SOME_VALUE1"
+      type  = "SECRETS_MANAGER"
     }
   ]
+
+  validation {
+    condition = alltrue([
+      for variable in var.environment_variables : contains(["SECRETS_MANAGER", "PARAMETER_STORE", null], variable.type)
+    ])
+    error_message = "Incorrect Format of Environment Variables , Check documentation at : https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-CodeBuild.html"
+  }
 }
 
 variable "CODE_SRC_TYPE" {
@@ -43,6 +54,11 @@ variable "CODE_SRC_TYPE" {
   }
 }
 
+variable "CODE_SRC_ARN" {
+  type        = string
+  description = "ARN For the Code Commit Repo"
+}
+
 variable "CODE_SRC_URL" {
   type        = string
   description = "URL for the git repo"
@@ -52,10 +68,30 @@ variable "CODE_SRC_URL" {
   }
 }
 
-variable "compute_type" {
+variable "CODE_PIPELINE_TRIGGER_REPO_BRANCH" {
+  type        = string
+  default     = "main"
+  description = "At which branch to trigger the Code Pipeline"
+}
+
+variable "CODEBUILD_BUILD_STAGE_UNIT" {
   type        = string
   description = "Compute type for the build Unit Examples : SMALL, MEDIUM , LARGE , 2XLARGE "
   default     = "MEDIUM"
+  validation {
+    condition     = contains(["SMALL", "MEDIUM", "LARGE", "2XLARGE"], variable.type)
+    error_message = "Incorrect Unit Type , for CODEBUILD-BUILD-UNIT"
+  }
+}
+
+variable "CODEBUILD_TEST_STAGE_UNIT" {
+  type        = string
+  description = "Compute type for the build Unit Examples : SMALL, MEDIUM , LARGE , 2XLARGE "
+  default     = "MEDIUM"
+  validation {
+    condition     = contains(["SMALL", "MEDIUM", "LARGE", "2XLARGE"], variable.type)
+    error_message = "Incorrect Unit Type , for CODEBUILD-BUILD-UNIT"
+  }
 }
 
 variable "DOCKER_ECR_IMAGE_REGISTRY_URI" {
@@ -68,6 +104,6 @@ variable "DOCKER_ECR_IMAGE_REGISTRY_URI" {
   }
 }
 
-variable "code_commit_repo_arn"{
+variable "code_commit_repo_arn" {
   description = "ARN for the code commit repo , to give code builder access to."
 }

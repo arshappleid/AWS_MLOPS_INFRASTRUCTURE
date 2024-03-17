@@ -1,16 +1,7 @@
 // modified from : https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project
 
-resource "aws_s3_bucket" "code_build_cache_s3" {
-  bucket = "${var.project_name}-codebuild-cache"
-}
-
-resource "aws_s3_bucket_acl" "example" {
-  bucket = aws_s3_bucket.code_build_cache_s3.id
-  acl    = "private"
-}
-
-resource "aws_codebuild_project" "example" {
-  name                 = "${var.project_name}-codebuild-project"
+resource "aws_codebuild_project" "build_stage" {
+  name                 = "${var.project_name}-codebuild-build-stage"
   build_timeout        = 5
   service_role         = aws_iam_role.code_build_initiator.arn // Role that initiates the build
   resource_access_role = aws_iam_role.code_build_initiator.arn // Role that grants access CloudWatch Logs, S3 bucket
@@ -24,7 +15,7 @@ resource "aws_codebuild_project" "example" {
   }
 
   environment {
-    compute_type                = "BUILD_GENERAL1_${var.compute_type}"
+    compute_type                = "BUILD_GENERAL1_${var.CODEBUILD_BUILD_STAGE_UNIT}"
     image                       = var.DOCKER_ECR_IMAGE_REGISTRY_URI
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = var.CODE_SRC_TYPE == "CODECOMMIT" ? "CODEBUILD" : "SERVICE_ROLE"
@@ -56,6 +47,7 @@ resource "aws_codebuild_project" "example" {
     type            = var.CODE_SRC_TYPE
     location        = var.CODE_SRC_URL
     git_clone_depth = 1
+    buildspec       = "buildspec_build.yaml"
 
     git_submodules_config {
       fetch_submodules = true
