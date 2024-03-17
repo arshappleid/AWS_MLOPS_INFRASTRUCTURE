@@ -12,7 +12,7 @@ resource "null_resource" "lambda_zip" {
 
 resource "aws_lambda_function" "trigger_sagemaker_pipeline" {
   filename      = "${path.module}/lambda.zip" // since the file is in the same repo
-  function_name = "Trigger Sagemaker Pipeline"
+  function_name = "Trigger-Sagemaker-Pipeline"
  role          = aws_iam_role.lambda_exec_role.arn
   handler       = "alarm.lambda_handler"
   runtime       = "python3.10"

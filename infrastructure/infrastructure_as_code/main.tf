@@ -1,7 +1,7 @@
 module "main_datasource" {
   source                         = "./data_sources"
   environment                    = "DEV"
-  s3_bucket_name                 = "my_s3_Bucket"
+  s3_bucket_name                 = "my-s3-Bucket"
   s3_bucket_data_transition_days = 45
   s3_bucket_data_transition_zone = "STANDARD_IA"
   s3_bucket_data_expiration_days = 90
@@ -13,22 +13,22 @@ module "main_datasource" {
   database_master_password = "password"
 }
 module "prod_model_train" {
-  source                       = "./model_train_infrastructure"
+  source                       = "./development_environment"
   vpc_cidr_block               = "10.2.0.0/16"
-  project_name                 = "Project 1"
-  code_commit_repo_name        = "Project 1 Repo"
+  project_name                 = "Project-1"
+  code_commit_repo_name        = "Project-1-Repo"
   code_commit_repo_description = "Project 1 , that trains a prediction model on current demand data"
   s3_bucket_list_arn           = [module.main_datasource.s3_bucket_arn]
 }
 
 module "operations_account" {
   source                                       = "./operations_environment"
-  sagemaker_pipeline_name                      = "My New pipeline"
+  sagemaker_pipeline_name                      = "My-New-pipeline"
   code_commit_repo_name                        = module.prod_model_train.code_commit_repo_name
   code_commit_branch_name_for_pipeline_trigger = "main"
 }
 
 module "model_registry"{
-  source = "./model_registry"
-  project_name = "regression_model"
+  source = "./model_registries"
+  project_name = "regression-model"
 }

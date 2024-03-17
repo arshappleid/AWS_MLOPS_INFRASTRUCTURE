@@ -35,4 +35,5 @@ The architecture should be capable of deploying a regression ml model , and coll
 ## Articles Referenced:
 
 1. [Google mlops Continuous Delivery and Automation Pipelines](https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
-2. 
+
+   

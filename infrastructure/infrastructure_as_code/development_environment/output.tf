@@ -6,3 +6,7 @@ output "code_commit_repo_clone_ulr" {
 output "code_commit_repo_name"{
 	value = aws_codecommit_repository.project_repo.repository_name
 }
+
+output "Notebook_URL"{
+	value = aws_sagemaker_notebook_instance.notebook_1.url
+}

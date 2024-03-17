@@ -1,5 +1,5 @@
 // Create the Role
-resource "aws_iam_role" "sagemaker_pipeline_role" {
+resource "aws_iam_role" "sagemaker_pipeline_iam_role" {
   name = "SageMakerPipelineRole"
 
   assume_role_policy = jsonencode({
@@ -39,6 +39,6 @@ resource "aws_iam_policy" "sagemaker_pipeline_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "sagemaker_pipeline_policy_attachment" {
-  role       = aws_iam_role.sagemaker_pipeline_role.name
+  role       = aws_iam_role.sagemaker_pipeline_iam_role.name
   policy_arn = aws_iam_policy.sagemaker_pipeline_policy.arn
 }

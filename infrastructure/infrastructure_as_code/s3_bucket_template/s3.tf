@@ -6,31 +6,35 @@ resource "aws_s3_bucket" "s3_data_source" {
     Environment = var.environment
   }
   
-  dynamic "lifecycle_rule" {
-    for_each = var.s3_bucket_data_transition_days > 0 ? [1] : []
-    content {
-      id      = "log"
-      enabled = true
+}
 
+resource "aws_s3_bucket_lifecycle_configuration" "data_transition_rule"{
+   count = var.s3_bucket_data_transition_days > 0 ? 1 : 0
+   bucket = aws_s3_bucket.s3_data_source.id
+
+   rule {
+      id      = "log"
+      status = "Enabled"
       transition {
         days          = var.s3_bucket_data_transition_days
         storage_class = var.s3_bucket_data_transition_zone
       }
-    }
-  }
+   }
+}
 
-  dynamic "lifecycle_rule" {
-    for_each = var.s3_bucket_data_expiration_days > 0 ? [1] : []
-    content {
+resource "aws_s3_bucket_lifecycle_configuration" "data_expiration_rule"{
+  count = var.s3_bucket_data_expiration_days > 0 ? 1 : 0
+  bucket = aws_s3_bucket.s3_data_source.id
+  
+    rule {
       id      = "expiration_policy"
-      enabled = true
-
+      status = "Enabled"
       expiration {
         days = var.s3_bucket_data_expiration_days
       }
     }
   }
-}
+
 
 resource "aws_s3_bucket_public_access_block" "public_access_policy_1" {
   bucket = aws_s3_bucket.s3_data_source.id
