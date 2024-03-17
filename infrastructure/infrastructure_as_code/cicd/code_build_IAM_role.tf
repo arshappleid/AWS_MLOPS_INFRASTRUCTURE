@@ -81,3 +81,19 @@ resource "aws_iam_role_policy" "example" {
   role   = aws_iam_role.code_build_initiator.name
   policy = data.aws_iam_policy_document.example.json
 }
+
+
+resource "aws_iam_role_policy" "code_commit_repo_access" {
+  role   = aws_iam_role.code_build_initiator.name
+  policy = jsonencode({
+    "Version":"2012-10-17",
+    "Resource":"${var.code_commit_repo_arn}"
+    "Statement":[
+      {
+      "Effect": "Allow",
+      "Action": ["codecommit:GetObject", "codecommit:PutObject"],
+      "Resource": "arn:aws:codecommit:::my-repo/*"
+    }
+    ]
+  })
+}

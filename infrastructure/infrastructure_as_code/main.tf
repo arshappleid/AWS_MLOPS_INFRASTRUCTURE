@@ -1,3 +1,6 @@
+locals {
+  project_name = "PROJECT-1"
+}
 module "main_datasource" {
   source                         = "./data_sources"
   environment                    = "DEV"
@@ -15,8 +18,8 @@ module "main_datasource" {
 module "prod_model_train" {
   source                       = "./development_environment"
   vpc_cidr_block               = "10.2.0.0/16"
-  project_name                 = "Project-1"
-  code_commit_repo_name        = "Project-1-Repo"
+  project_name                 =  local.project_name
+  code_commit_repo_name        = "${local.project_name}-REPO"
   code_commit_repo_description = "Project 1 , that trains a prediction model on current demand data"
   s3_bucket_list_arn           = [module.main_datasource.s3_bucket_arn]
 }
@@ -30,5 +33,14 @@ module "operations_account" {
 
 module "model_registry"{
   source = "./model_registries"
-  project_name = "regression-model"
+  project_name = local.project_name
+}
+
+module "cicd"{
+  source = "./cicd"
+  project_name = local.project_name
+  code_commit_repo_arn = module.prod_model_train.code_commit_repo_arn
+  CODE_SRC_TYPE = "CODECOMMIT"
+  CODE_SRC_URL = module.prod_model_train.code_commit_repo_clone_ulr
+  DOCKER_ECR_IMAGE_REGISTRY_URI = module.model_registry.DOCKER_ECR_IMAGE_REGISTRY_URI
 }

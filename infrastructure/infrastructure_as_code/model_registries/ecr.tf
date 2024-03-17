@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "foo" {
+resource "aws_ecr_repository" "model_registry" {
   name                 = "${var.project_name}-ECR-Registry"
   image_tag_mutability = "IMMUTABLE"
   force_delete = false

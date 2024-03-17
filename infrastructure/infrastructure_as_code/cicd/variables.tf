@@ -67,3 +67,7 @@ variable "DOCKER_ECR_IMAGE_REGISTRY_URI" {
     error_message = "The DOCKER_ECR_IMAGE_REGISTRY_URI must not be empty."
   }
 }
+
+variable "code_commit_repo_arn"{
+  description = "ARN for the code commit repo , to give code builder access to."
+}
