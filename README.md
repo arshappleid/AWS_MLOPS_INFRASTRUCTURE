@@ -4,6 +4,8 @@ A cloud solution for a Machine Learning Platform , that utilizes AWS to deploy M
 
 The architecture should be capable of deploying a regression ml model , and collect accuracy metrics regarding the model.
 
+_I intend to complete this project solely for learning purposes, and the primary purpose of knowledge for this project was online articles, published books , and my own university education. I am also working on other projects currently, and therefore might not have been able to finish this project completely. Although I do hope to finish this as time allows, and hope to use this as a template directory for any future ML deployments._
+
 ## Requirements Overview
 
 - Infrastructure should implement concepts of IAM Security, Scalability to deliver new ML models.
